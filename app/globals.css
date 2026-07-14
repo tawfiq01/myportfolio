@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #060609;
+  --foreground: #e8e8ec;
+  --muted: #9b9ba6;
+  --accent: #7c5cff;
+  --accent-2: #22d3ee;
+  --card: #0d0d14;
+  --border: #1c1c28;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Soft glow blobs used behind the hero */
+.glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Entrance animation for hero content */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.7s ease-out both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise 0.7s ease-out 0.15s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise 0.7s ease-out 0.3s both;
+}
+
+/* Gradient text for headline accents */
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle dot grid backdrop */
+.bg-grid {
+  background-image: radial-gradient(circle at 1px 1px, #ffffff12 1px, transparent 0);
+  background-size: 32px 32px;
+}
