@@ -1,37 +1,10 @@
 import Section from "./Section";
 import { SOCIAL } from "@/lib/site";
-
-type Project = {
-  name: string;
-  description: string;
-  tech: string[];
-  href: string | null;
-  highlight: boolean;
-};
-
-const PROJECTS: Project[] = [
-  {
-    name: "RideTrack",
-    description:
-      "A Strava-style community app for bike and car enthusiasts. Live GPS activity recording with real-time distance/speed stats and route drawing on a map, activity feed, profiles, vehicles and clubs — built mobile-first with a web preview.",
-    tech: ["React Native", "Expo", "TypeScript", "Supabase", "react-native-maps", "Leaflet"],
-    href: "https://github.com/tawfiq01/ridetrack",
-    highlight: true,
-  },
-  // TODO: Add more of your projects below — 2–4 strong ones beat a long list.
-  {
-    name: "Your next project",
-    description:
-      "Placeholder — describe a project you're proud of: the problem, what you built, and the result.",
-    tech: ["—"],
-    href: null,
-    highlight: false,
-  },
-];
+import { PROJECTS } from "@/lib/content";
 
 export default function Projects() {
   return (
-    <Section id="projects" eyebrow="03." title="Projects">
+    <Section id="projects" eyebrow="04." title="Projects">
       <div className="space-y-6">
         {PROJECTS.map((project) => (
           <article

@@ -1,27 +1,9 @@
 import Section from "./Section";
-
-const SKILL_GROUPS: { label: string; items: string[] }[] = [
-  {
-    label: "Mobile",
-    items: ["React Native", "Expo", "EAS Build", "expo-location / maps"],
-  },
-  {
-    label: "Web",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-  },
-  {
-    label: "Backend & Data",
-    items: ["Supabase", "PostgreSQL", "PostGIS", "REST APIs"],
-  },
-  {
-    label: "Tools",
-    items: ["Git & GitHub", "VS Code", "Figma", "CI/CD"],
-  },
-];
+import { SKILL_GROUPS } from "@/lib/content";
 
 export default function Skills() {
   return (
-    <Section id="skills" eyebrow="02." title="Skills & tools">
+    <Section id="skills" eyebrow="03." title="Skills & tools">
       <div className="grid gap-6 sm:grid-cols-2">
         {SKILL_GROUPS.map((group) => (
           <div

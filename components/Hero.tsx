@@ -1,4 +1,5 @@
 import { SOCIAL } from "@/lib/site";
+import { HERO } from "@/lib/content";
 
 export default function Hero() {
   return (
@@ -7,24 +8,19 @@ export default function Hero() {
       <div className="glow right-[-5%] bottom-[15%] h-80 w-80 bg-[var(--accent-2)]" />
 
       <div className="relative mx-auto w-full max-w-5xl px-6 pt-24">
-        <p className="animate-rise font-mono text-sm text-accent-2">Hi, my name is</p>
+        <p className="animate-rise font-mono text-sm text-accent-2">{HERO.greeting}</p>
         <h1 className="animate-rise-delay-1 mt-4 text-5xl font-bold leading-tight tracking-tight sm:text-7xl">
-          Tawfiqul Islam.
+          {HERO.headline}
           <br />
-          <span className="text-gradient">I build apps people move with.</span>
+          <span className="text-gradient">{HERO.tagline}</span>
         </h1>
-        <p className="animate-rise-delay-2 mt-6 max-w-xl text-lg text-muted">
-          Software developer focused on mobile and web — React Native, React, TypeScript and
-          Supabase. Currently building{" "}
-          <span className="text-foreground">RideTrack</span>, a GPS ride-tracking app for bikers
-          and drivers.
-        </p>
+        <p className="animate-rise-delay-2 mt-6 max-w-xl text-lg text-muted">{HERO.intro}</p>
         <div className="animate-rise-delay-2 mt-10 flex flex-wrap gap-4">
           <a
-            href="#projects"
+            href={HERO.primaryCta.href}
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
           >
-            See my work
+            {HERO.primaryCta.label}
           </a>
           <a
             href={`mailto:${SOCIAL.email}`}
