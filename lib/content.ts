@@ -15,7 +15,7 @@ export type SkillGroup = {
 export type Project = {
   name: string;
   description: string;
-  tech: string[];
+  tech: string[]; // shown as tags — for case studies use methods/domains, not only tech
   href: string | null;
   highlight: boolean;
 };
@@ -41,89 +41,93 @@ export const NAV_LINKS: NavLink[] = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
+  { href: "#projects", label: "Case studies" },
   { href: "#contact", label: "Contact" },
 ];
 
 export const HERO = {
   greeting: "Hi, my name is",
   headline: "Tawfiqul Islam.",
-  tagline: "I build apps people move with.",
+  tagline: "I get complex projects shipped.",
   intro:
-    "Software developer focused on mobile and web — React Native, React, TypeScript and Supabase. Currently building RideTrack, a GPS ride-tracking app for bikers and drivers.",
-  primaryCta: { label: "See my work", href: "#projects" },
+    "Project manager focused on FinTech — leading cross-functional teams that take banking and payments software from kickoff to launch: on time, in scope, and with stakeholders on board.",
+  primaryCta: { label: "See my case studies", href: "#projects" },
 };
 
 export const ABOUT = {
   paragraphs: [
-    "I'm a software developer from Bangladesh who enjoys turning ideas into products people actually use. My current focus is mobile-first development — building smooth, reliable apps with React Native and Expo, backed by Supabase and PostgreSQL.",
-    "Right now I'm building RideTrack, a Strava-style community app for bike and car enthusiasts: live GPS activity tracking, route maps, social feeds, clubs and events.",
-    // TODO: Replace with your own story — education, experience, what drives you.
-    "When I'm not coding, I'm exploring new tools in the React ecosystem and sharpening my product-design eye.",
+    "I'm a project manager from Bangladesh who enjoys sitting at the intersection of business and engineering — translating what clients need into plans that teams can actually deliver.",
+    "At Era InfoTech I manage delivery of FinTech and banking software: running sprints and milestones, coordinating developers, QA, vendors and bank stakeholders, and keeping scope, risk and timelines honest.",
+    // TODO: Replace with your own story — education, years of experience, what drives you.
+    "Outside of delivery work I stay close to the product side — I understand how modern web and mobile apps are built, which keeps my estimates realistic and my conversations with engineers grounded.",
   ],
 };
 
 export const EXPERIENCES: Experience[] = [
-  // TODO: Fill in your real roles, dates and achievements.
+  // TODO: Fill in your real roles, dates and achievements — numbers (team size,
+  // projects delivered, on-time %) make a PM profile far more convincing.
   {
-    role: "Software Developer",
+    role: "Project Manager",
     company: "Era InfoTech Ltd.",
     companyUrl: "https://www.erainfotechbd.com",
     start: "2024",
     end: null,
     summary:
-      "Building FinTech and banking software solutions for financial institutions in Bangladesh.",
+      "Managing end-to-end delivery of FinTech and banking software projects for financial institutions in Bangladesh.",
     highlights: [
-      "Developing mobile-first products with React Native, Expo and TypeScript.",
-      "Working with Supabase and PostgreSQL-backed services.",
+      "Leading cross-functional teams of developers, QA and designers through Agile sprints and release milestones.",
+      "Coordinating requirements, UAT and go-lives with bank stakeholders and third-party vendors.",
+      "Owning project scope, schedules, risk registers and status reporting to management and clients.",
     ],
   },
 ];
 
 export const SKILL_GROUPS: SkillGroup[] = [
   {
-    label: "Mobile",
-    items: ["React Native", "Expo", "EAS Build", "expo-location / maps"],
+    label: "Delivery & Methodology",
+    items: ["Agile / Scrum", "Kanban", "Hybrid & Waterfall", "Sprint & release planning"],
   },
   {
-    label: "Web",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    label: "Planning & Analysis",
+    items: ["Project scheduling", "Risk management", "Requirements (BRD / SRS)", "Estimation & budgeting"],
   },
   {
-    label: "Backend & Data",
-    items: ["Supabase", "PostgreSQL", "PostGIS", "REST APIs"],
+    label: "Leadership & Communication",
+    items: ["Stakeholder management", "Cross-functional team leadership", "Vendor coordination", "Client & UAT management"],
   },
   {
-    label: "Tools",
-    items: ["Git & GitHub", "VS Code", "Figma", "CI/CD"],
+    label: "Tools & Domain",
+    items: ["Jira / Confluence", "MS Project / Excel", "FinTech & core banking", "Git & SDLC fluency"],
   },
 ];
 
 export const PROJECTS: Project[] = [
+  // TODO: Replace with 2–4 real FinTech case studies. A strong case study covers:
+  // the client problem → scope & team → how you ran delivery → measurable outcome.
+  {
+    name: "Banking software delivery — case study",
+    description:
+      "Placeholder — describe a FinTech project you managed: the client's problem, the scope and team you led, how you ran delivery (sprints, milestones, UAT, go-live), and the measurable outcome — on-time launch, adoption numbers, or cost savings.",
+    tech: ["Agile / Scrum", "Core banking", "UAT & go-live", "Stakeholder management"],
+    href: null,
+    highlight: true,
+  },
   {
     name: "RideTrack",
     description:
-      "A Strava-style community app for bike and car enthusiasts. Live GPS activity recording with real-time distance/speed stats and route drawing on a map, activity feed, profiles, vehicles and clubs — built mobile-first with a web preview.",
-    tech: ["React Native", "Expo", "TypeScript", "Supabase", "react-native-maps", "Leaflet"],
+      "A personal product I lead end-to-end: a Strava-style community app for bike and car enthusiasts with live GPS tracking, route maps and social feeds. I own the roadmap, scope and releases — proof that I can drive a product from idea to working software.",
+    tech: ["Product roadmap", "Scope & releases", "React Native", "Supabase"],
     href: "https://github.com/tawfiq01/ridetrack",
-    highlight: true,
-  },
-  // TODO: Add more of your projects below — 2–4 strong ones beat a long list.
-  {
-    name: "Your next project",
-    description:
-      "Placeholder — describe a project you're proud of: the problem, what you built, and the result.",
-    tech: ["—"],
-    href: null,
     highlight: false,
   },
 ];
 
 export const CERTIFICATIONS: Certification[] = [
-  // TODO: Replace with your real certifications (name, issuer, year, credential URL).
+  // TODO: Replace with your real certifications — e.g. PMP, CAPM, PSM/CSM, PRINCE2,
+  // ICAgile — with issuer, year and credential URL. Remove any you don't hold.
   {
-    name: "Your certification",
-    issuer: "Issuing organization",
+    name: "Your PM certification",
+    issuer: "Issuing organization (e.g. PMI, Scrum.org)",
     year: "2025",
     href: null,
   },
@@ -131,6 +135,6 @@ export const CERTIFICATIONS: Certification[] = [
 
 export const CONTACT = {
   blurb:
-    "Whether you have a project in mind, a role to fill, or just want to say hi — my inbox is open.",
+    "Hiring a project manager who can keep FinTech delivery on track — or want to talk about a project? My inbox is open.",
   ctaLabel: "Say hello",
 };

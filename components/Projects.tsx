@@ -4,7 +4,7 @@ import { PROJECTS } from "@/lib/content";
 
 export default function Projects() {
   return (
-    <Section id="projects" eyebrow="04." title="Projects">
+    <Section id="projects" eyebrow="04." title="Case studies">
       <div className="space-y-6">
         {PROJECTS.map((project) => (
           <article

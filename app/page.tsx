@@ -17,9 +17,16 @@ const personJsonLd = {
   url: SITE_URL,
   description: SITE_DESCRIPTION,
   email: `mailto:${SOCIAL.email}`,
-  jobTitle: "Software Developer",
+  jobTitle: "Project Manager",
   sameAs: [SOCIAL.github, SOCIAL.linkedin],
-  knowsAbout: ["React Native", "React", "TypeScript", "Next.js", "Supabase", "PostgreSQL"],
+  knowsAbout: [
+    "Project Management",
+    "Agile",
+    "Scrum",
+    "FinTech",
+    "Banking Software Delivery",
+    "Stakeholder Management",
+  ],
 };
 
 export default function Home() {

@@ -3,9 +3,9 @@
 export const SITE_URL = 'https://tawfiqulislam.dev';
 
 export const SITE_NAME = 'Tawfiqul Islam';
-export const SITE_TITLE = 'Tawfiqul Islam — Software Developer';
+export const SITE_TITLE = 'Tawfiqul Islam — Project Manager';
 export const SITE_DESCRIPTION =
-  'Software developer building mobile and web apps with React Native, React, TypeScript and Supabase. Currently building RideTrack, a GPS ride-tracking app for bikers and drivers.';
+  'Project manager specializing in FinTech and banking software delivery — leading cross-functional teams from requirements to go-live with Agile and hybrid methodologies.';
 
 export const SOCIAL = {
   github: 'https://github.com/tawfiq01',
