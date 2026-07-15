@@ -1,6 +1,7 @@
 // Seeds the database with the current placeholder content from lib/content.ts.
-// Idempotent: wipes and re-inserts each content table (Messages untouched).
-// Run with: npm run db:seed  (plain Node — type stripping, no ts-node needed)
+// Runs during Vercel builds (see vercel.json) — the guard below makes it a
+// no-op once any content exists, so deploys never clobber live edits.
+// Force a re-seed with FORCE_SEED=1 (wipes and re-inserts; Messages untouched).
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { CERTIFICATIONS, EXPERIENCES, PROJECTS, SKILL_GROUPS } from "../lib/content.ts";
@@ -9,6 +10,16 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  const existing =
+    (await prisma.project.count()) +
+    (await prisma.experience.count()) +
+    (await prisma.skillGroup.count()) +
+    (await prisma.certification.count());
+  if (existing > 0 && !process.env.FORCE_SEED) {
+    console.log(`Seed skipped: ${existing} content rows already present.`);
+    return;
+  }
+
   await prisma.project.deleteMany();
   await prisma.project.createMany({
     data: PROJECTS.map((p, i) => ({ ...p, sortOrder: i })),
