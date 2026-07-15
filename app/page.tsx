@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import Preloader from "@/components/Preloader";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -36,14 +37,19 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
+      <Preloader />
       <Nav />
       <main>
         <Hero />
         <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Certifications />
+        {/* Light "work" zone — dark hero/about curve into it, contact curves out. */}
+        <div className="bg-paper text-paper-fg">
+          <div aria-hidden className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-background sm:h-24" />
+          <Experience />
+          <Skills />
+          <Projects />
+          <Certifications />
+        </div>
         <Contact />
       </main>
       <Footer />

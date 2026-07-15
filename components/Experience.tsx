@@ -1,48 +1,46 @@
 import Section from "./Section";
+import Reveal from "./Reveal";
 import { EXPERIENCES } from "@/lib/content";
 
 export default function Experience() {
   return (
-    <Section id="experience" eyebrow="02." title="Where I've worked">
-      <ol className="relative space-y-12 border-l border-border pl-8">
+    <Section id="experience" eyebrow="01" title="Experience">
+      <ol>
         {EXPERIENCES.map((job) => (
-          <li key={`${job.company}-${job.start}`} className="relative">
-            <span
-              aria-hidden
-              className="absolute -left-[37px] top-1.5 h-3 w-3 rounded-full border-2 border-accent bg-background"
-            />
-            <p className="font-mono text-xs text-accent-2">
-              {job.start} — {job.end ?? "Present"}
-            </p>
-            <h3 className="mt-2 text-xl font-bold">
-              {job.role}{" "}
-              <span className="text-muted">
-                @{" "}
+          <li key={`${job.company}-${job.start}`} className="group border-b border-paper-border pb-12 pt-2">
+            <Reveal>
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
+                <h3 className="text-3xl font-light transition-transform duration-300 group-hover:translate-x-2 sm:text-5xl">
+                  {job.role}
+                </h3>
+                <p className="text-sm text-paper-muted">
+                  {job.start} — {job.end ?? "Present"}
+                </p>
+              </div>
+              <p className="mt-3 text-paper-muted">
                 {job.companyUrl ? (
                   <a
                     href={job.companyUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="transition-colors hover:text-accent-2"
+                    className="underline-offset-4 transition-colors hover:text-paper-fg hover:underline"
                   >
                     {job.company}
                   </a>
                 ) : (
                   job.company
                 )}
-              </span>
-            </h3>
-            <p className="mt-3 max-w-2xl text-muted">{job.summary}</p>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
-              {job.highlights.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span aria-hidden className="text-accent">
-                    ▸
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+              </p>
+              <p className="mt-6 max-w-2xl text-paper-muted">{job.summary}</p>
+              <ul className="mt-5 max-w-2xl space-y-2.5 text-sm text-paper-muted">
+                {job.highlights.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </li>
         ))}
       </ol>

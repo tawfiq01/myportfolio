@@ -1,55 +1,64 @@
 import Section from "./Section";
+import Reveal from "./Reveal";
 import { SOCIAL } from "@/lib/site";
 import { PROJECTS } from "@/lib/content";
 
 export default function Projects() {
   return (
-    <Section id="projects" eyebrow="04." title="Case studies">
-      <div className="space-y-6">
+    <Section id="projects" eyebrow="03" title="Case studies">
+      <ul className="dim-list">
         {PROJECTS.map((project) => (
-          <article
-            key={project.name}
-            className={`group rounded-2xl border bg-card p-8 transition-all hover:-translate-y-1 ${
-              project.highlight ? "border-accent/40" : "border-border"
-            }`}
-          >
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="text-xl font-bold">
-                {project.href ? (
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors group-hover:text-accent-2"
-                  >
-                    {project.name} <span aria-hidden>↗</span>
-                  </a>
-                ) : (
-                  project.name
-                )}
-              </h3>
-              {project.highlight && (
-                <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-xs text-accent">
-                  Featured
-                </span>
-              )}
-            </div>
-            <p className="mt-3 max-w-2xl text-muted">{project.description}</p>
-            <ul className="mt-5 flex flex-wrap gap-2 font-mono text-xs text-accent-2">
-              {project.tech.map((tech) => (
-                <li key={tech}>{tech}</li>
-              ))}
-            </ul>
-          </article>
+          <li key={project.name} className="group border-b border-paper-border first:border-t">
+            <Reveal>
+              <div className="flex flex-col gap-4 py-10 sm:flex-row sm:items-start sm:justify-between sm:gap-12">
+                <div className="max-w-2xl">
+                  <h3 className="text-3xl font-light transition-transform duration-300 group-hover:translate-x-2 sm:text-5xl">
+                    {project.href ? (
+                      <a href={project.href} target="_blank" rel="noreferrer">
+                        {project.name}
+                      </a>
+                    ) : (
+                      project.name
+                    )}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-paper-muted">{project.description}</p>
+                </div>
+                <div className="shrink-0 text-sm text-paper-muted sm:max-w-[220px] sm:text-right">
+                  <ul className="space-y-1">
+                    {project.tech.map((tech) => (
+                      <li key={tech}>{tech}</li>
+                    ))}
+                  </ul>
+                  {project.href && (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-block text-paper-fg underline-offset-4 hover:underline"
+                    >
+                      View <span aria-hidden>↗</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          </li>
         ))}
-      </div>
-      <p className="mt-8 text-sm text-muted">
-        More on{" "}
-        <a href={SOCIAL.github} target="_blank" rel="noreferrer" className="text-accent-2 hover:underline">
-          GitHub
-        </a>
-        .
-      </p>
+      </ul>
+      <Reveal delay={100}>
+        <p className="mt-10 text-sm text-paper-muted">
+          More on{" "}
+          <a
+            href={SOCIAL.github}
+            target="_blank"
+            rel="noreferrer"
+            className="text-paper-fg underline-offset-4 hover:underline"
+          >
+            GitHub
+          </a>
+          .
+        </p>
+      </Reveal>
     </Section>
   );
 }

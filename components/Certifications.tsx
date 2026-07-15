@@ -1,31 +1,38 @@
 import Section from "./Section";
+import Reveal from "./Reveal";
 import { CERTIFICATIONS } from "@/lib/content";
 
 export default function Certifications() {
   return (
-    <Section id="certifications" eyebrow="05." title="Certifications">
-      <ul className="grid gap-6 sm:grid-cols-2">
+    <Section id="certifications" eyebrow="04" title="Certifications">
+      <ul>
         {CERTIFICATIONS.map((cert) => (
           <li
             key={`${cert.name}-${cert.issuer}`}
-            className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-accent/50"
+            className="group border-b border-paper-border first:border-t"
           >
-            <p className="font-mono text-xs text-accent-2">{cert.year}</p>
-            <h3 className="mt-2 font-bold">
-              {cert.href ? (
-                <a
-                  href={cert.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="transition-colors hover:text-accent-2"
-                >
-                  {cert.name} <span aria-hidden>↗</span>
-                </a>
-              ) : (
-                cert.name
-              )}
-            </h3>
-            <p className="mt-1 text-sm text-muted">{cert.issuer}</p>
+            <Reveal>
+              <div className="flex flex-wrap items-baseline justify-between gap-3 py-8">
+                <div>
+                  <h3 className="text-xl font-medium transition-transform duration-300 group-hover:translate-x-2 sm:text-2xl">
+                    {cert.href ? (
+                      <a
+                        href={cert.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline-offset-4 hover:underline"
+                      >
+                        {cert.name} <span aria-hidden>↗</span>
+                      </a>
+                    ) : (
+                      cert.name
+                    )}
+                  </h3>
+                  <p className="mt-1 text-sm text-paper-muted">{cert.issuer}</p>
+                </div>
+                <p className="text-sm text-paper-muted">{cert.year}</p>
+              </div>
+            </Reveal>
           </li>
         ))}
       </ul>

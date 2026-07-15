@@ -1,3 +1,5 @@
+import Reveal from "./Reveal";
+
 type Props = {
   id: string;
   eyebrow: string;
@@ -5,13 +7,19 @@ type Props = {
   children: React.ReactNode;
 };
 
+// Section shell for the light "work" zone: small uppercase label row with a
+// divider, content beneath. Colors assume a `bg-paper text-paper-fg` ancestor.
 export default function Section({ id, eyebrow, title, children }: Props) {
   return (
-    <section id={id} className="scroll-mt-24 py-24">
-      <div className="mx-auto max-w-5xl px-6">
-        <p className="font-mono text-sm text-accent-2">{eyebrow}</p>
-        <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-        <div className="mt-10">{children}</div>
+    <section id={id} className="scroll-mt-24 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-6 sm:px-10">
+        <Reveal>
+          <div className="flex items-baseline justify-between border-b border-paper-border pb-6 text-paper-muted">
+            <p className="text-xs uppercase tracking-[0.25em]">{title}</p>
+            <span className="text-xs">/{eyebrow}</span>
+          </div>
+        </Reveal>
+        <div className="mt-12">{children}</div>
       </div>
     </section>
   );

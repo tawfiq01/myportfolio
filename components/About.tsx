@@ -1,24 +1,35 @@
-import Section from "./Section";
-import { ABOUT } from "@/lib/content";
+import Magnetic from "./Magnetic";
+import Reveal from "./Reveal";
+import { ABOUT, HERO } from "@/lib/content";
 
 export default function About() {
   return (
-    <Section id="about" eyebrow="01." title="About me">
-      <div className="grid gap-10 md:grid-cols-[2fr_1fr]">
-        <div className="space-y-4 text-muted">
-          {ABOUT.paragraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 32)}>{paragraph}</p>
-          ))}
-        </div>
-        <div className="relative">
-          <div className="aspect-square rounded-2xl border border-border bg-card p-1">
-            {/* TODO: Drop your photo at public/me.jpg and swap this block for an <Image>. */}
-            <div className="flex h-full w-full items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent-2)]/20 font-mono text-5xl font-bold text-gradient">
-              TI
+    <section id="about" className="scroll-mt-24 bg-background text-foreground">
+      <div className="mx-auto max-w-6xl px-6 py-28 sm:px-10 sm:py-40">
+        <div className="grid items-start gap-14 sm:grid-cols-[1.6fr_1fr]">
+          <Reveal>
+            <p className="text-2xl font-light leading-snug sm:text-4xl">{HERO.intro}</p>
+          </Reveal>
+          <Reveal delay={150}>
+            <div className="space-y-5 text-sm leading-relaxed text-muted sm:text-base">
+              {ABOUT.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+              ))}
             </div>
-          </div>
+          </Reveal>
         </div>
+
+        <Reveal delay={250} className="mt-16 flex justify-center sm:justify-end sm:pr-24">
+          <Magnetic>
+            <a
+              href="#experience"
+              className="fill-hover flex h-40 w-40 items-center justify-center rounded-full border border-white/20 text-sm sm:h-44 sm:w-44"
+            >
+              <span>My journey</span>
+            </a>
+          </Magnetic>
+        </Reveal>
       </div>
-    </Section>
+    </section>
   );
 }

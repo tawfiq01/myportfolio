@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #060609;
-  --foreground: #e8e8ec;
-  --muted: #9b9ba6;
-  --accent: #7c5cff;
-  --accent-2: #22d3ee;
-  --card: #0d0d14;
-  --border: #1c1c28;
+  --background: #1c1d20;
+  --foreground: #ffffff;
+  --muted: #999d9e;
+  --accent: #455ce9;
+  --accent-deep: #3244c9;
+  --paper: #ffffff;
+  --paper-fg: #1c1d20;
+  --paper-muted: #6f7275;
+  --paper-border: #e0e0e0;
+  --drawer: #29292b;
 }
 
 @theme inline {
@@ -15,11 +18,12 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
-  --color-accent-2: var(--accent-2);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-fg: var(--paper-fg);
+  --color-paper-muted: var(--paper-muted);
+  --color-paper-border: var(--paper-border);
+  --color-drawer: var(--drawer);
+  --font-sans: var(--font-instrument);
 }
 
 html {
@@ -29,7 +33,9 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-instrument), Arial, Helvetica, sans-serif;
+  /* Marquee tracks and section-transition curves intentionally overflow the viewport. */
+  overflow-x: clip;
 }
 
 ::selection {
@@ -37,49 +43,181 @@ body {
   color: #fff;
 }
 
-/* Soft glow blobs used behind the hero */
-.glow {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.35;
-  pointer-events: none;
+/* ---------- Preloader (multilingual greetings, pure CSS timeline) ---------- */
+
+@keyframes preloader-lift {
+  to {
+    transform: translateY(calc(-100% - 6rem));
+    visibility: hidden;
+  }
 }
 
-/* Entrance animation for hero content */
-@keyframes rise {
+.preloader {
+  animation: preloader-lift 0.8s cubic-bezier(0.76, 0, 0.24, 1) 2.2s forwards;
+}
+
+/* Curved lip that trails the overlay as it lifts away. */
+.preloader::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -10%;
+  width: 120%;
+  height: 6rem;
+  background: var(--drawer);
+  border-radius: 0 0 100% 100%;
+}
+
+@keyframes word-flash {
+  0% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes word-hold {
   from {
     opacity: 0;
-    transform: translateY(24px);
   }
+  30%,
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-.animate-rise {
-  animation: rise 0.7s ease-out both;
+.preloader-word {
+  opacity: 0;
+  animation: word-flash 0.22s linear both;
 }
 
-.animate-rise-delay-1 {
-  animation: rise 0.7s ease-out 0.15s both;
+.preloader-word.is-last {
+  animation-name: word-hold;
+  animation-duration: 0.3s;
 }
 
-.animate-rise-delay-2 {
-  animation: rise 0.7s ease-out 0.3s both;
+/* ---------- Hero name marquee ---------- */
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-/* Gradient text for headline accents */
-.text-gradient {
-  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 18s linear infinite;
 }
 
-/* Subtle dot grid backdrop */
-.bg-grid {
-  background-image: radial-gradient(circle at 1px 1px, #ffffff12 1px, transparent 0);
-  background-size: 32px 32px;
+/* ---------- Slow spin for the location-badge globe ---------- */
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* ---------- Rounded buttons that fill from the bottom on hover ---------- */
+
+.fill-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.fill-hover::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 170%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--fill, var(--accent));
+  transform: translate(-50%, 0);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fill-hover:hover::before {
+  transform: translate(-50%, -65%);
+}
+
+/* Labels inside a fill-hover element must be wrapped in a child element
+   so they stack above the ::before fill circle. */
+.fill-hover > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Nav links with the little dot indicator ---------- */
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.6em;
+  height: 5px;
+  width: 5px;
+  border-radius: 9999px;
+  background: currentColor;
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover::after {
+  transform: translateX(-50%) scale(1);
+}
+
+/* ---------- Scroll-reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee-track,
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
+/* ---------- Project list: hovered row stays sharp, siblings dim ---------- */
+
+.dim-list:hover > li {
+  opacity: 0.35;
+}
+
+.dim-list:hover > li:hover {
+  opacity: 1;
+}
+
+.dim-list > li {
+  transition: opacity 0.3s ease;
 }
