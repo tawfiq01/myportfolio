@@ -1,8 +1,9 @@
 import Section from "./Section";
 import Reveal from "./Reveal";
-import { CERTIFICATIONS } from "@/lib/content";
+import { getCertifications } from "@/lib/queries";
 
-export default function Certifications() {
+export default async function Certifications() {
+  const CERTIFICATIONS = await getCertifications();
   return (
     <Section id="certifications" eyebrow="04" title="Certifications">
       <ul>

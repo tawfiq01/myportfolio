@@ -10,6 +10,10 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL } from "@/lib/site";
 
+// Re-render at most once a minute so content edits in the database show up
+// without a redeploy.
+export const revalidate = 60;
+
 // Structured data so Google shows rich "Person" results for your name.
 const personJsonLd = {
   "@context": "https://schema.org",

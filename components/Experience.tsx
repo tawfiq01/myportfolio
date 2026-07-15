@@ -1,8 +1,9 @@
 import Section from "./Section";
 import Reveal from "./Reveal";
-import { EXPERIENCES } from "@/lib/content";
+import { getExperiences } from "@/lib/queries";
 
-export default function Experience() {
+export default async function Experience() {
+  const EXPERIENCES = await getExperiences();
   return (
     <Section id="experience" eyebrow="01" title="Experience">
       <ol>

@@ -1,8 +1,9 @@
 import Section from "./Section";
 import Reveal from "./Reveal";
-import { SKILL_GROUPS } from "@/lib/content";
+import { getSkillGroups } from "@/lib/queries";
 
-export default function Skills() {
+export default async function Skills() {
+  const SKILL_GROUPS = await getSkillGroups();
   return (
     <Section id="skills" eyebrow="02" title="Skills">
       <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">

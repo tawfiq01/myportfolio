@@ -1,9 +1,10 @@
 import Section from "./Section";
 import Reveal from "./Reveal";
 import { SOCIAL } from "@/lib/site";
-import { PROJECTS } from "@/lib/content";
+import { getProjects } from "@/lib/queries";
 
-export default function Projects() {
+export default async function Projects() {
+  const PROJECTS = await getProjects();
   return (
     <Section id="projects" eyebrow="03" title="Case studies">
       <ul className="dim-list">

@@ -1,0 +1,66 @@
+// Content entities for the portfolio (PLAN.md Phase 2, first slice).
+// Shapes mirror the types in lib/content.ts — queries in lib/queries.ts map
+// rows back to those types so components never see Prisma models directly.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  tech        String[]
+  href        String?
+  highlight   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id         String   @id @default(cuid())
+  role       String
+  company    String
+  companyUrl String?
+  start      String
+  end        String?
+  summary    String
+  highlights String[]
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model SkillGroup {
+  id        String   @id @default(cuid())
+  label     String
+  items     String[]
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Certification {
+  id        String   @id @default(cuid())
+  name      String
+  issuer    String
+  year      String
+  href      String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Contact-form submissions (wired up in Phase 3).
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  body      String
+  createdAt DateTime @default(now())
+}
