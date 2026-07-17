@@ -6,14 +6,21 @@ import {
   CONTACT,
   EXPERIENCES,
   HERO,
+  NAV_LINKS,
   PROJECTS,
   SKILL_GROUPS,
   type Certification,
   type Experience,
+  type NavLink,
   type Project,
   type SkillGroup,
 } from "./content";
 import { SOCIAL } from "./site";
+
+export type GalleryImage = {
+  title: string;
+  imageUrl: string;
+};
 
 export type SiteContent = {
   heroGreeting: string;
@@ -81,10 +88,35 @@ export function getProjects(): Promise<Project[]> {
         description: row.description,
         tech: row.tech,
         href: row.href,
+        imageUrl: row.imageUrl,
         highlight: row.highlight,
       })),
     PROJECTS,
   );
+}
+
+// Visible menu items, in order. Falls back to the static NAV_LINKS.
+export function getMenuItems(): Promise<NavLink[]> {
+  return fromDb(
+    async () =>
+      (await prisma!.menuItem.findMany({ where: { visible: true }, orderBy: { sortOrder: "asc" } })).map(
+        (row) => ({ href: row.href, label: row.label }),
+      ),
+    NAV_LINKS,
+  );
+}
+
+export async function getGalleryImages(): Promise<GalleryImage[]> {
+  if (!prisma) return [];
+  try {
+    return (await prisma.galleryImage.findMany({ orderBy: { sortOrder: "asc" } })).map((row) => ({
+      title: row.title,
+      imageUrl: row.imageUrl,
+    }));
+  } catch (error) {
+    console.error("Database query failed, gallery hidden:", error);
+    return [];
+  }
 }
 
 export function getExperiences(): Promise<Experience[]> {

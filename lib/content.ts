@@ -17,6 +17,7 @@ export type Project = {
   description: string;
   tech: string[]; // shown as tags — for case studies use methods/domains, not only tech
   href: string | null;
+  imageUrl?: string | null;
   highlight: boolean;
 };
 

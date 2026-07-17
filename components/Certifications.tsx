@@ -5,7 +5,7 @@ import { getCertifications } from "@/lib/queries";
 export default async function Certifications() {
   const CERTIFICATIONS = await getCertifications();
   return (
-    <Section id="certifications" eyebrow="04" title="Certifications">
+    <Section id="certifications" eyebrow="05" title="Certifications">
       <ul>
         {CERTIFICATIONS.map((cert) => (
           <li

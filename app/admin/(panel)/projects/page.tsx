@@ -8,11 +8,21 @@ type Row = {
   description: string;
   tech: string[];
   href: string | null;
+  imageUrl: string | null;
   highlight: boolean;
   sortOrder: number;
 };
 
-const EMPTY: Row = { id: null, name: "", description: "", tech: [], href: null, highlight: false, sortOrder: 0 };
+const EMPTY: Row = {
+  id: null,
+  name: "",
+  description: "",
+  tech: [],
+  href: null,
+  imageUrl: null,
+  highlight: false,
+  sortOrder: 0,
+};
 
 function ProjectForm({ row }: { row: Row }) {
   return (
@@ -36,10 +46,34 @@ function ProjectForm({ row }: { row: Row }) {
         <Field label="Link (optional)">
           <input name="href" defaultValue={row.href ?? ""} className={inputCls} />
         </Field>
-        <label className="flex items-center gap-2 text-sm text-muted">
-          <input type="checkbox" name="highlight" defaultChecked={row.highlight} className="accent-[#455ce9]" />
-          Featured
-        </label>
+        {row.imageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={row.imageUrl}
+            alt={row.name}
+            className="h-28 w-44 rounded-lg border border-white/10 object-cover"
+          />
+        )}
+        <Field label={row.imageUrl ? "Replace image (optional)" : "Image (optional)"}>
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            className={`${inputCls} file:mr-3 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-1 file:text-white`}
+          />
+        </Field>
+        <div className="flex flex-wrap gap-6">
+          <label className="flex items-center gap-2 text-sm text-muted">
+            <input type="checkbox" name="highlight" defaultChecked={row.highlight} className="accent-[#455ce9]" />
+            Featured
+          </label>
+          {row.imageUrl && (
+            <label className="flex items-center gap-2 text-sm text-muted">
+              <input type="checkbox" name="removeImage" className="accent-[#455ce9]" />
+              Remove image
+            </label>
+          )}
+        </div>
         <div className="flex gap-3">
           <SaveButton label={row.id ? "Save" : "Add case study"} />
           {row.id && <DangerButton label="Delete" formAction={deleteProject} />}

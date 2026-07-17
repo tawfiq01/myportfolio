@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NAV_LINKS } from "@/lib/content";
+import type { NavLink } from "@/lib/content";
 import Magnetic from "./Magnetic";
 
 type Props = {
+  links: NavLink[];
   socials: { github: string; linkedin: string; email: string };
 };
 
-export default function Nav({ socials }: Props) {
+export default function Nav({ links, socials }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -38,7 +39,7 @@ export default function Nav({ socials }: Props) {
             © Code by Tawfiqul
           </a>
           <ul className="hidden items-center gap-9 text-sm sm:flex">
-            {NAV_LINKS.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <a href={link.href} className="nav-link">
                   {link.label}
@@ -81,7 +82,7 @@ export default function Nav({ socials }: Props) {
               Navigation
             </p>
             <ul className="mt-10 space-y-3">
-              {NAV_LINKS.map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}

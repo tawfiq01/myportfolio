@@ -1,45 +1,55 @@
-// Seeds the database with the current placeholder content from lib/content.ts.
-// Runs during Vercel builds (see vercel.json) — the guard below makes it a
-// no-op once any content exists, so deploys never clobber live edits.
-// Force a re-seed with FORCE_SEED=1 (wipes and re-inserts; Messages untouched).
+// Seeds the database with the placeholder content from lib/content.ts.
+// Runs during Vercel builds (see vercel.json). Each table is guarded
+// independently — a table is only seeded when it's empty, so deploys never
+// clobber live edits, while newly added tables still get their first rows.
+// Force a full re-seed with FORCE_SEED=1 (Messages untouched).
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { ABOUT, CERTIFICATIONS, CONTACT, EXPERIENCES, HERO, PROJECTS, SKILL_GROUPS } from "../lib/content.ts";
+import { ABOUT, CERTIFICATIONS, CONTACT, EXPERIENCES, HERO, NAV_LINKS, PROJECTS, SKILL_GROUPS } from "../lib/content.ts";
 import { SOCIAL } from "../lib/site.ts";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
+const force = Boolean(process.env.FORCE_SEED);
 
 async function main() {
-  const existing =
-    (await prisma.project.count()) +
-    (await prisma.experience.count()) +
-    (await prisma.skillGroup.count()) +
-    (await prisma.certification.count());
-  if (existing > 0 && !process.env.FORCE_SEED) {
-    console.log(`Seed skipped: ${existing} content rows already present.`);
-    return;
+  const seeded: string[] = [];
+
+  if (force || (await prisma.project.count()) === 0) {
+    await prisma.project.deleteMany();
+    await prisma.project.createMany({ data: PROJECTS.map((p, i) => ({ ...p, sortOrder: i })) });
+    seeded.push("projects");
   }
 
-  await prisma.project.deleteMany();
-  await prisma.project.createMany({
-    data: PROJECTS.map((p, i) => ({ ...p, sortOrder: i })),
-  });
+  if (force || (await prisma.experience.count()) === 0) {
+    await prisma.experience.deleteMany();
+    await prisma.experience.createMany({ data: EXPERIENCES.map((e, i) => ({ ...e, sortOrder: i })) });
+    seeded.push("experiences");
+  }
 
-  await prisma.experience.deleteMany();
-  await prisma.experience.createMany({
-    data: EXPERIENCES.map((e, i) => ({ ...e, sortOrder: i })),
-  });
+  if (force || (await prisma.skillGroup.count()) === 0) {
+    await prisma.skillGroup.deleteMany();
+    await prisma.skillGroup.createMany({ data: SKILL_GROUPS.map((s, i) => ({ ...s, sortOrder: i })) });
+    seeded.push("skillGroups");
+  }
 
-  await prisma.skillGroup.deleteMany();
-  await prisma.skillGroup.createMany({
-    data: SKILL_GROUPS.map((s, i) => ({ ...s, sortOrder: i })),
-  });
+  if (force || (await prisma.certification.count()) === 0) {
+    await prisma.certification.deleteMany();
+    await prisma.certification.createMany({ data: CERTIFICATIONS.map((c, i) => ({ ...c, sortOrder: i })) });
+    seeded.push("certifications");
+  }
 
-  await prisma.certification.deleteMany();
-  await prisma.certification.createMany({
-    data: CERTIFICATIONS.map((c, i) => ({ ...c, sortOrder: i })),
-  });
+  if (force || (await prisma.menuItem.count()) === 0) {
+    await prisma.menuItem.deleteMany();
+    // NAV_LINKS with Gallery slotted in just before Contact.
+    const links = NAV_LINKS.flatMap((link) =>
+      link.href === "#contact" ? [{ href: "#gallery", label: "Gallery" }, link] : [link],
+    );
+    await prisma.menuItem.createMany({
+      data: links.map((link, i) => ({ label: link.label, href: link.href, sortOrder: i, visible: true })),
+    });
+    seeded.push("menuItems");
+  }
 
   const siteContent = {
     heroGreeting: HERO.greeting,
@@ -54,19 +64,17 @@ async function main() {
     github: SOCIAL.github,
     linkedin: SOCIAL.linkedin,
   };
-  await prisma.siteContent.upsert({
-    where: { id: "singleton" },
-    update: siteContent,
-    create: { id: "singleton", ...siteContent },
-  });
+  const existingSite = await prisma.siteContent.findUnique({ where: { id: "singleton" } });
+  if (force || !existingSite) {
+    await prisma.siteContent.upsert({
+      where: { id: "singleton" },
+      update: siteContent,
+      create: { id: "singleton", ...siteContent },
+    });
+    seeded.push("siteContent");
+  }
 
-  const counts = {
-    projects: await prisma.project.count(),
-    experiences: await prisma.experience.count(),
-    skillGroups: await prisma.skillGroup.count(),
-    certifications: await prisma.certification.count(),
-  };
-  console.log("Seeded:", counts);
+  console.log(seeded.length ? `Seeded: ${seeded.join(", ")}` : "Seed skipped: all tables already have data.");
 }
 
 main()

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Section from "./Section";
 import Reveal from "./Reveal";
 import { getProjects, getSiteContent } from "@/lib/queries";
@@ -21,6 +22,17 @@ export default async function Projects() {
                       project.name
                     )}
                   </h3>
+                  {project.imageUrl && (
+                    <div className="relative mt-5 aspect-video w-full max-w-md overflow-hidden rounded-xl">
+                      <Image
+                        src={project.imageUrl}
+                        alt={project.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 448px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
                   <p className="mt-4 text-sm leading-relaxed text-paper-muted">{project.description}</p>
                 </div>
                 <div className="shrink-0 text-sm text-paper-muted sm:max-w-[220px] sm:text-right">

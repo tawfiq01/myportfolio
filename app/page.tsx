@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
 import Hero from "@/components/Hero";
+import Gallery from "@/components/Gallery";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
@@ -9,14 +10,14 @@ import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
-import { getSiteContent } from "@/lib/queries";
+import { getMenuItems, getSiteContent } from "@/lib/queries";
 
 // Re-render at most once a minute so content edits in the database show up
 // without a redeploy (admin saves also revalidate immediately).
 export const revalidate = 60;
 
 export default async function Home() {
-  const site = await getSiteContent();
+  const [site, menuLinks] = await Promise.all([getSiteContent(), getMenuItems()]);
 
   // Structured data so Google shows rich "Person" results for your name.
   const personJsonLd = {
@@ -45,7 +46,10 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <Preloader />
-      <Nav socials={{ github: site.github, linkedin: site.linkedin, email: site.email }} />
+      <Nav
+        links={menuLinks}
+        socials={{ github: site.github, linkedin: site.linkedin, email: site.email }}
+      />
       <main>
         <Hero />
         <About />
@@ -55,6 +59,7 @@ export default async function Home() {
           <Experience />
           <Skills />
           <Projects />
+          <Gallery />
           <Certifications />
         </div>
         <Contact />

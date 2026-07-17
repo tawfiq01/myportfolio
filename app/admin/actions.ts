@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { del, put } from "@vercel/blob";
 import { prisma } from "@/lib/db";
 import { checkPassword, createSession, destroySession, isAuthenticated, setPassword } from "@/lib/auth";
 
@@ -82,16 +83,48 @@ function revalidateSite(adminPath: string) {
   revalidatePath(adminPath);
 }
 
+// Uploads a form image to Vercel Blob; returns null when no file was chosen.
+async function uploadImage(formData: FormData, key = "image"): Promise<string | null> {
+  const file = formData.get(key);
+  if (!(file instanceof File) || file.size === 0) return null;
+  const blob = await put(`portfolio/${Date.now()}-${file.name}`, file, { access: "public" });
+  return blob.url;
+}
+
+// Best-effort delete of a blob we own; never fails the mutation.
+async function removeBlob(url: string | null | undefined) {
+  if (!url || !url.includes("blob.vercel-storage.com")) return;
+  try {
+    await del(url);
+  } catch (error) {
+    console.error("Blob delete failed:", error);
+  }
+}
+
 // ---------- projects ----------
 
 export async function saveProject(formData: FormData): Promise<void> {
   const db = await requireAuthAndDb();
   const id = optional(formData, "id");
+  const existing = id ? await db.project.findUnique({ where: { id } }) : null;
+
+  const uploaded = await uploadImage(formData);
+  const removeImage = formData.get("removeImage") === "on";
+  let imageUrl = existing?.imageUrl ?? null;
+  if (uploaded) {
+    await removeBlob(existing?.imageUrl);
+    imageUrl = uploaded;
+  } else if (removeImage) {
+    await removeBlob(existing?.imageUrl);
+    imageUrl = null;
+  }
+
   const data = {
     name: text(formData, "name"),
     description: text(formData, "description"),
     tech: lines(formData, "tech"),
     href: optional(formData, "href"),
+    imageUrl,
     highlight: formData.get("highlight") === "on",
     sortOrder: intOr(formData, "sortOrder", 0),
   };
@@ -103,8 +136,71 @@ export async function saveProject(formData: FormData): Promise<void> {
 export async function deleteProject(formData: FormData): Promise<void> {
   const db = await requireAuthAndDb();
   const id = text(formData, "id");
-  if (id) await db.project.delete({ where: { id } });
+  if (id) {
+    const existing = await db.project.findUnique({ where: { id } });
+    await db.project.delete({ where: { id } });
+    await removeBlob(existing?.imageUrl);
+  }
   revalidateSite("/admin/projects");
+}
+
+// ---------- gallery ----------
+
+export async function saveGalleryImage(formData: FormData): Promise<void> {
+  const db = await requireAuthAndDb();
+  const id = optional(formData, "id");
+  const uploaded = await uploadImage(formData);
+  const base = {
+    title: text(formData, "title"),
+    sortOrder: intOr(formData, "sortOrder", 0),
+  };
+
+  if (id) {
+    const existing = await db.galleryImage.findUnique({ where: { id } });
+    if (uploaded) await removeBlob(existing?.imageUrl);
+    await db.galleryImage.update({
+      where: { id },
+      data: uploaded ? { ...base, imageUrl: uploaded } : base,
+    });
+  } else {
+    if (!uploaded) throw new Error("An image file is required");
+    await db.galleryImage.create({ data: { ...base, imageUrl: uploaded } });
+  }
+  revalidateSite("/admin/gallery");
+}
+
+export async function deleteGalleryImage(formData: FormData): Promise<void> {
+  const db = await requireAuthAndDb();
+  const id = text(formData, "id");
+  if (id) {
+    const existing = await db.galleryImage.findUnique({ where: { id } });
+    await db.galleryImage.delete({ where: { id } });
+    await removeBlob(existing?.imageUrl);
+  }
+  revalidateSite("/admin/gallery");
+}
+
+// ---------- menu ----------
+
+export async function saveMenuItem(formData: FormData): Promise<void> {
+  const db = await requireAuthAndDb();
+  const id = optional(formData, "id");
+  const data = {
+    label: text(formData, "label"),
+    href: text(formData, "href"),
+    visible: formData.get("visible") === "on",
+    sortOrder: intOr(formData, "sortOrder", 0),
+  };
+  if (id) await db.menuItem.update({ where: { id }, data });
+  else await db.menuItem.create({ data });
+  revalidateSite("/admin/menu");
+}
+
+export async function deleteMenuItem(formData: FormData): Promise<void> {
+  const db = await requireAuthAndDb();
+  const id = text(formData, "id");
+  if (id) await db.menuItem.delete({ where: { id } });
+  revalidateSite("/admin/menu");
 }
 
 // ---------- experience ----------
