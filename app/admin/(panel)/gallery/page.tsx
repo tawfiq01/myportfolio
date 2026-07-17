@@ -51,7 +51,7 @@ export default async function GalleryAdmin() {
         <h2 className="pt-4 text-sm uppercase tracking-[0.2em] text-muted">Add new</h2>
         <Card>
           <form action={saveGalleryImage} className="space-y-4">
-            <Field label="Image file">
+            <Field label="Image file (max 10 MB)">
               <input
                 name="image"
                 type="file"

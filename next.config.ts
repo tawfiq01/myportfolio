@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      // Admin uploads photos through server actions; the default 1MB limit
+      // rejects typical photos before they reach the action.
+      bodySizeLimit: "10mb",
+    },
+  },
 };
 
 export default nextConfig;

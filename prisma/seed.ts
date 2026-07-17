@@ -39,6 +39,32 @@ async function main() {
     seeded.push("certifications");
   }
 
+  if (force || (await prisma.galleryImage.count()) === 0) {
+    await prisma.galleryImage.deleteMany();
+    // Demo photos (already uploaded to the project's Blob store) so the
+    // Gallery section has something to show — replace them from /admin/gallery.
+    await prisma.galleryImage.createMany({
+      data: [
+        {
+          title: "Demo photo — replace me from the admin panel",
+          imageUrl: "https://mk5j89bnxdni0tr3.public.blob.vercel-storage.com/portfolio/demo-workspace.jpg",
+          sortOrder: 0,
+        },
+        {
+          title: "Demo photo — replace me",
+          imageUrl: "https://mk5j89bnxdni0tr3.public.blob.vercel-storage.com/portfolio/demo-desk.jpg",
+          sortOrder: 1,
+        },
+        {
+          title: "Demo photo — replace me",
+          imageUrl: "https://mk5j89bnxdni0tr3.public.blob.vercel-storage.com/portfolio/demo-city.jpg",
+          sortOrder: 2,
+        },
+      ],
+    });
+    seeded.push("galleryImages");
+  }
+
   if (force || (await prisma.menuItem.count()) === 0) {
     await prisma.menuItem.deleteMany();
     // NAV_LINKS with Gallery slotted in just before Contact.
