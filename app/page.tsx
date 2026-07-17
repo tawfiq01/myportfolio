@@ -10,14 +10,18 @@ import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
-import { getMenuItems, getSiteContent } from "@/lib/queries";
+import { getMenuItems, getSiteContent, getThemeSettings } from "@/lib/queries";
 
 // Re-render at most once a minute so content edits in the database show up
 // without a redeploy (admin saves also revalidate immediately).
 export const revalidate = 60;
 
 export default async function Home() {
-  const [site, menuLinks] = await Promise.all([getSiteContent(), getMenuItems()]);
+  const [site, menuLinks, theme] = await Promise.all([
+    getSiteContent(),
+    getMenuItems(),
+    getThemeSettings(),
+  ]);
 
   // Structured data so Google shows rich "Person" results for your name.
   const personJsonLd = {
@@ -45,10 +49,20 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
+      {theme.themeToggle && (
+        // Re-apply the visitor's saved theme before first paint (no flash).
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}",
+          }}
+        />
+      )}
       <Preloader />
       <Nav
         links={menuLinks}
         socials={{ github: site.github, linkedin: site.linkedin, email: site.email }}
+        showThemeToggle={theme.themeToggle}
       />
       <main>
         <Hero />

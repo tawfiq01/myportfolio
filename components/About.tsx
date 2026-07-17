@@ -25,7 +25,7 @@ export default async function About() {
           <Magnetic>
             <a
               href="#experience"
-              className="fill-hover flex h-40 w-40 items-center justify-center rounded-full border border-white/20 text-sm sm:h-44 sm:w-44"
+              className="fill-hover flex h-40 w-40 items-center justify-center rounded-full border border-foreground/20 text-sm sm:h-44 sm:w-44"
             >
               <span>My journey</span>
             </a>

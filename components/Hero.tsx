@@ -7,12 +7,12 @@ export default async function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden bg-[#2a2c32] pt-20 text-foreground"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden bg-[var(--hero)] pt-20 text-foreground"
     >
       {/* Soft light wash to keep the landing airier than the sections below */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,#3a3d45_0%,transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--hero-glow)_0%,transparent_55%)]"
       />
 
       {/* Location badge */}

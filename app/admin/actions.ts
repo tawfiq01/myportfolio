@@ -276,6 +276,30 @@ export async function deleteCertification(formData: FormData): Promise<void> {
   revalidateSite("/admin/certifications");
 }
 
+// ---------- appearance ----------
+
+const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+export async function saveTheme(formData: FormData): Promise<void> {
+  const db = await requireAuthAndDb();
+  const reset = formData.get("reset") === "1";
+  const accent = text(formData, "accent");
+  const background = text(formData, "background");
+  const data = reset
+    ? { accent: "#455ce9", background: "#1c1d20", themeToggle: formData.get("themeToggle") === "on" }
+    : {
+        accent: HEX_RE.test(accent) ? accent : "#455ce9",
+        background: HEX_RE.test(background) ? background : "#1c1d20",
+        themeToggle: formData.get("themeToggle") === "on",
+      };
+  await db.themeSettings.upsert({
+    where: { id: "singleton" },
+    update: data,
+    create: { id: "singleton", ...data },
+  });
+  revalidateSite("/admin/appearance");
+}
+
 // ---------- site content (hero / about / contact / socials) ----------
 
 export async function saveSiteContent(formData: FormData): Promise<void> {

@@ -97,6 +97,17 @@ model SiteContent {
   updatedAt       DateTime @updatedAt
 }
 
+// Singleton row (id = "singleton") for site appearance: brand colors and
+// whether visitors get a light/dark toggle. Colors are hex (#rrggbb); all
+// derived shades come from CSS color-mix, so two colors define the scheme.
+model ThemeSettings {
+  id          String   @id @default("singleton")
+  accent      String   @default("#455ce9")
+  background  String   @default("#1c1d20")
+  themeToggle Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+}
+
 // Singleton row (id = "singleton") for admin credentials. When present, the
 // scrypt-hashed password here wins over the ADMIN_PASSWORD env var (which
 // remains only as the bootstrap password before the first change).

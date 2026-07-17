@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import type { NavLink } from "@/lib/content";
 import Magnetic from "./Magnetic";
+import ThemeToggle from "./ThemeToggle";
 
 type Props = {
   links: NavLink[];
   socials: { github: string; linkedin: string; email: string };
+  showThemeToggle?: boolean;
 };
 
-export default function Nav({ links, socials }: Props) {
+export default function Nav({ links, socials, showThemeToggle = false }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -46,7 +48,17 @@ export default function Nav({ links, socials }: Props) {
                 </a>
               </li>
             ))}
+            {showThemeToggle && (
+              <li>
+                <ThemeToggle />
+              </li>
+            )}
           </ul>
+          {showThemeToggle && (
+            <span className="sm:hidden">
+              <ThemeToggle />
+            </span>
+          )}
         </nav>
       </header>
 
@@ -62,7 +74,7 @@ export default function Nav({ links, socials }: Props) {
       {/* Slide-in drawer — same menu content as the header. */}
       <aside
         id="menu-drawer"
-        className={`fixed inset-y-0 right-0 z-40 w-full max-w-md bg-drawer text-white transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`fixed inset-y-0 right-0 z-40 w-full max-w-md bg-drawer text-foreground transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           open ? "translate-x-0" : "translate-x-[calc(100%+100px)]"
         }`}
       >
@@ -78,7 +90,7 @@ export default function Nav({ links, socials }: Props) {
 
         <div className="flex h-full flex-col justify-between px-10 py-16 sm:px-14 sm:py-20">
           <div>
-            <p className="border-b border-white/20 pb-6 text-xs uppercase tracking-[0.25em] text-muted">
+            <p className="border-b border-foreground/20 pb-6 text-xs uppercase tracking-[0.25em] text-muted">
               Navigation
             </p>
             <ul className="mt-10 space-y-3">
@@ -91,7 +103,7 @@ export default function Nav({ links, socials }: Props) {
                   >
                     <span
                       aria-hidden
-                      className="h-2.5 w-2.5 scale-0 rounded-full bg-white transition-transform duration-200 group-hover:scale-100"
+                      className="h-2.5 w-2.5 scale-0 rounded-full bg-foreground transition-transform duration-200 group-hover:scale-100"
                     />
                     {link.label}
                   </a>

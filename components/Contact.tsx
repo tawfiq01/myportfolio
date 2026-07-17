@@ -21,11 +21,11 @@ export default async function Contact() {
 
         <Reveal delay={150}>
           <div className="relative mt-16 sm:mt-24">
-            <div className="h-px w-full bg-white/20" />
+            <div className="h-px w-full bg-foreground/20" />
             <Magnetic className="absolute right-2 top-0 -translate-y-1/2 sm:right-[12%]">
               <a
                 href={`mailto:${site.email}`}
-                className="fill-hover flex h-32 w-32 items-center justify-center rounded-full bg-accent text-center text-sm [--fill:var(--accent-deep)] sm:h-44 sm:w-44 sm:text-base"
+                className="fill-hover flex h-32 w-32 items-center justify-center rounded-full bg-accent text-center text-sm text-white [--fill:var(--accent-deep)] sm:h-44 sm:w-44 sm:text-base"
               >
                 <span>{site.contactCtaLabel}</span>
               </a>
@@ -40,7 +40,7 @@ export default async function Contact() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={`mailto:${site.email}`}
-              className="fill-hover inline-block rounded-full border border-white/20 px-8 py-4 text-sm"
+              className="fill-hover inline-block rounded-full border border-foreground/20 px-8 py-4 text-sm"
             >
               <span>{site.email}</span>
             </a>

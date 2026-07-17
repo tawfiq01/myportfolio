@@ -11,11 +11,11 @@ export default function Preloader() {
           <span
             key={greeting}
             style={{ animationDelay: `${0.25 + i * 0.2}s` }}
-            className={`preloader-word absolute inset-0 flex items-center justify-center gap-3 text-3xl text-white sm:text-4xl ${
+            className={`preloader-word absolute inset-0 flex items-center justify-center gap-3 text-3xl text-foreground sm:text-4xl ${
               i === GREETINGS.length - 1 ? "is-last" : ""
             }`}
           >
-            <span className="inline-block h-2 w-2 rounded-full bg-white" />
+            <span className="inline-block h-2 w-2 rounded-full bg-foreground" />
             {greeting}
           </span>
         ))}

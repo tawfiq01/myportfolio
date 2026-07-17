@@ -1,16 +1,31 @@
 @import "tailwindcss";
 
 :root {
+  /* --accent and --background may be overridden by an inline <style> from
+     the database (admin → Appearance). Everything else derives from them. */
   --background: #1c1d20;
   --foreground: #ffffff;
   --muted: #999d9e;
   --accent: #455ce9;
-  --accent-deep: #3244c9;
+  --accent-deep: color-mix(in srgb, var(--accent) 82%, black);
   --paper: #ffffff;
   --paper-fg: #1c1d20;
   --paper-muted: #6f7275;
   --paper-border: #e0e0e0;
-  --drawer: #29292b;
+  --drawer: color-mix(in srgb, var(--background) 90%, white);
+  --hero: color-mix(in srgb, var(--background) 91%, white);
+  --hero-glow: color-mix(in srgb, var(--background) 80%, white);
+}
+
+/* Visitor-selected light theme (only reachable when the admin enables the
+   light/dark toggle). The light "work" zone (paper) stays as-is. */
+:root[data-theme="light"] {
+  --background: #f2f3f5;
+  --foreground: #17181a;
+  --muted: #5c5f63;
+  --drawer: #e9eaee;
+  --hero: #fbfbfc;
+  --hero-glow: color-mix(in srgb, var(--accent) 10%, white);
 }
 
 @theme inline {
@@ -135,6 +150,11 @@ body {
 
 .fill-hover:hover::before {
   transform: translate(-50%, -65%);
+}
+
+/* Filled state sits on the accent color — keep the label readable in both themes. */
+.fill-hover:hover {
+  color: #fff;
 }
 
 /* Labels inside a fill-hover element must be wrapped in a child element

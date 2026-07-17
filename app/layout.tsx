@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { getThemeSettings } from "@/lib/queries";
 
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument",
@@ -45,11 +46,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Hex-validated in getThemeSettings, so safe to inline into <style>.
+  const theme = await getThemeSettings();
+
   return (
     <html
       lang="en"
@@ -60,6 +64,7 @@ export default function RootLayout({
           attributes into <body> before React hydrates — attribute-only, so real
           hydration bugs in children still surface. */}
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <style>{`:root{--accent:${theme.accent};--background:${theme.background}}`}</style>
         {children}
       </body>
     </html>

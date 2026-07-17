@@ -22,6 +22,37 @@ export type GalleryImage = {
   imageUrl: string;
 };
 
+export type ThemeSettings = {
+  accent: string;
+  background: string;
+  themeToggle: boolean;
+};
+
+export const DEFAULT_THEME: ThemeSettings = {
+  accent: "#455ce9",
+  background: "#1c1d20",
+  themeToggle: false,
+};
+
+const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+// Hex-validated so values are safe to interpolate into an inline <style>.
+export const getThemeSettings = cache(async (): Promise<ThemeSettings> => {
+  if (!prisma) return DEFAULT_THEME;
+  try {
+    const row = await prisma.themeSettings.findUnique({ where: { id: "singleton" } });
+    if (!row) return DEFAULT_THEME;
+    return {
+      accent: HEX_RE.test(row.accent) ? row.accent : DEFAULT_THEME.accent,
+      background: HEX_RE.test(row.background) ? row.background : DEFAULT_THEME.background,
+      themeToggle: row.themeToggle,
+    };
+  } catch (error) {
+    console.error("Database query failed, serving default theme:", error);
+    return DEFAULT_THEME;
+  }
+});
+
 export type SiteContent = {
   heroGreeting: string;
   heroHeadline: string;
