@@ -8,8 +8,10 @@ import { cookies } from "next/headers";
 const COOKIE_NAME = "admin_session";
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+// trim() guards against trailing CR/LF picked up when secrets are piped
+// into `vercel env add` from a shell.
 function secret(): string {
-  return process.env.SESSION_SECRET ?? "";
+  return (process.env.SESSION_SECRET ?? "").trim();
 }
 
 function sign(payload: string): string {
@@ -23,7 +25,7 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export function checkPassword(password: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "";
+  const expected = (process.env.ADMIN_PASSWORD ?? "").trim();
   if (!expected || !secret()) return false;
   return safeEqual(password, expected);
 }
