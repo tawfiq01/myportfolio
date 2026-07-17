@@ -74,6 +74,15 @@ model SiteContent {
   updatedAt       DateTime @updatedAt
 }
 
+// Singleton row (id = "singleton") for admin credentials. When present, the
+// scrypt-hashed password here wins over the ADMIN_PASSWORD env var (which
+// remains only as the bootstrap password before the first change).
+model AdminSettings {
+  id           String   @id @default("singleton")
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
+
 // Contact-form submissions (wired up in Phase 3).
 model Message {
   id        String   @id @default(cuid())

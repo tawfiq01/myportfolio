@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { checkPassword, createSession, destroySession, isAuthenticated } from "@/lib/auth";
+import { checkPassword, createSession, destroySession, isAuthenticated, setPassword } from "@/lib/auth";
 
 // ---------- auth ----------
 
@@ -11,11 +11,35 @@ export type LoginState = { error?: string };
 
 export async function login(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const password = String(formData.get("password") ?? "");
-  if (!checkPassword(password)) {
+  if (!(await checkPassword(password))) {
     return { error: "Wrong password." };
   }
   await createSession();
   redirect("/admin");
+}
+
+export type ChangePasswordState = { error?: string; success?: boolean };
+
+export async function changePassword(
+  _prev: ChangePasswordState,
+  formData: FormData,
+): Promise<ChangePasswordState> {
+  if (!(await isAuthenticated())) throw new Error("Unauthorized");
+  if (!prisma) return { error: "Database not connected — password can't be changed here." };
+
+  const current = String(formData.get("current") ?? "");
+  const next = String(formData.get("next") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+
+  if (!(await checkPassword(current))) return { error: "Current password is wrong." };
+  if (next.length < 8) return { error: "New password must be at least 8 characters." };
+  if (next !== confirm) return { error: "New passwords don't match." };
+
+  await setPassword(next);
+  // Changing the password invalidates all existing sessions (the signing key
+  // includes the password hash) — issue a fresh one so you stay logged in.
+  await createSession();
+  return { success: true };
 }
 
 export async function logout(): Promise<void> {
