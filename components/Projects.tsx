@@ -1,10 +1,9 @@
 import Section from "./Section";
 import Reveal from "./Reveal";
-import { SOCIAL } from "@/lib/site";
-import { getProjects } from "@/lib/queries";
+import { getProjects, getSiteContent } from "@/lib/queries";
 
 export default async function Projects() {
-  const PROJECTS = await getProjects();
+  const [PROJECTS, site] = await Promise.all([getProjects(), getSiteContent()]);
   return (
     <Section id="projects" eyebrow="03" title="Case studies">
       <ul className="dim-list">
@@ -50,7 +49,7 @@ export default async function Projects() {
         <p className="mt-10 text-sm text-paper-muted">
           More on{" "}
           <a
-            href={SOCIAL.github}
+            href={site.github}
             target="_blank"
             rel="noreferrer"
             className="text-paper-fg underline-offset-4 hover:underline"

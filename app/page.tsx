@@ -8,33 +8,36 @@ import Projects from "@/components/Projects";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { getSiteContent } from "@/lib/queries";
 
 // Re-render at most once a minute so content edits in the database show up
-// without a redeploy.
+// without a redeploy (admin saves also revalidate immediately).
 export const revalidate = 60;
 
-// Structured data so Google shows rich "Person" results for your name.
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: SITE_DESCRIPTION,
-  email: `mailto:${SOCIAL.email}`,
-  jobTitle: "Project Manager",
-  sameAs: [SOCIAL.github, SOCIAL.linkedin],
-  knowsAbout: [
-    "Project Management",
-    "Agile",
-    "Scrum",
-    "FinTech",
-    "Banking Software Delivery",
-    "Stakeholder Management",
-  ],
-};
+export default async function Home() {
+  const site = await getSiteContent();
 
-export default function Home() {
+  // Structured data so Google shows rich "Person" results for your name.
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    email: `mailto:${site.email}`,
+    jobTitle: "Project Manager",
+    sameAs: [site.github, site.linkedin],
+    knowsAbout: [
+      "Project Management",
+      "Agile",
+      "Scrum",
+      "FinTech",
+      "Banking Software Delivery",
+      "Stakeholder Management",
+    ],
+  };
+
   return (
     <>
       <script
@@ -42,7 +45,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <Preloader />
-      <Nav />
+      <Nav socials={{ github: site.github, linkedin: site.linkedin, email: site.email }} />
       <main>
         <Hero />
         <About />

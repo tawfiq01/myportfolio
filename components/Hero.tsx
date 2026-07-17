@@ -1,8 +1,9 @@
-import { HERO } from "@/lib/content";
+import { getSiteContent } from "@/lib/queries";
 
-const MARQUEE_TEXT = `${HERO.headline.replace(/\.\s*$/, "")} — `;
+export default async function Hero() {
+  const site = await getSiteContent();
+  const name = site.heroHeadline.replace(/\.\s*$/, "");
 
-export default function Hero() {
   return (
     <section
       id="top"
@@ -44,32 +45,20 @@ export default function Hero() {
           >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
-          <p className="text-sm text-muted">{HERO.greeting}</p>
-          <p className="mt-3 text-2xl font-light leading-snug sm:text-3xl">{HERO.tagline}</p>
+          <p className="text-sm text-muted">{site.heroGreeting}</p>
+          <p className="mt-3 text-2xl font-light leading-snug sm:text-3xl">{site.heroTagline}</p>
           <a
-            href={HERO.primaryCta.href}
+            href="#projects"
             className="mt-5 inline-block text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
           >
-            {HERO.primaryCta.label} ↓
+            See my case studies ↓
           </a>
         </div>
       </div>
 
-      {/* Giant scrolling name */}
-      <h1 aria-label={HERO.headline} className="relative select-none pb-8">
-        <span
-          aria-hidden
-          className="marquee-track whitespace-nowrap text-[14vw] font-medium leading-[0.95] tracking-tight sm:text-[9.5vw]"
-        >
-          <span className="pr-6">
-            {MARQUEE_TEXT}
-            {MARQUEE_TEXT}
-          </span>
-          <span className="pr-6">
-            {MARQUEE_TEXT}
-            {MARQUEE_TEXT}
-          </span>
-        </span>
+      {/* Giant static name */}
+      <h1 className="select-none px-6 pb-10 text-[12.5vw] font-medium leading-[0.95] tracking-tight sm:px-10 sm:text-[8.5vw]">
+        {name}
       </h1>
     </section>
   );

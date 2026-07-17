@@ -4,7 +4,8 @@
 // Force a re-seed with FORCE_SEED=1 (wipes and re-inserts; Messages untouched).
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { CERTIFICATIONS, EXPERIENCES, PROJECTS, SKILL_GROUPS } from "../lib/content.ts";
+import { ABOUT, CERTIFICATIONS, CONTACT, EXPERIENCES, HERO, PROJECTS, SKILL_GROUPS } from "../lib/content.ts";
+import { SOCIAL } from "../lib/site.ts";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -38,6 +39,24 @@ async function main() {
   await prisma.certification.deleteMany();
   await prisma.certification.createMany({
     data: CERTIFICATIONS.map((c, i) => ({ ...c, sortOrder: i })),
+  });
+
+  const siteContent = {
+    heroGreeting: HERO.greeting,
+    heroHeadline: HERO.headline,
+    heroTagline: HERO.tagline,
+    heroIntro: HERO.intro,
+    aboutParagraphs: ABOUT.paragraphs as string[],
+    contactBlurb: CONTACT.blurb,
+    contactCtaLabel: CONTACT.ctaLabel,
+    email: SOCIAL.email,
+    github: SOCIAL.github,
+    linkedin: SOCIAL.linkedin,
+  };
+  await prisma.siteContent.upsert({
+    where: { id: "singleton" },
+    update: siteContent,
+    create: { id: "singleton", ...siteContent },
   });
 
   const counts = {

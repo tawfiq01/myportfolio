@@ -56,6 +56,24 @@ model Certification {
   updatedAt DateTime @updatedAt
 }
 
+// Singleton row (id = "singleton") holding all site-wide copy: hero, about,
+// contact and social links. Public pages fall back to lib/content.ts when
+// the row doesn't exist yet.
+model SiteContent {
+  id              String   @id @default("singleton")
+  heroGreeting    String
+  heroHeadline    String
+  heroTagline     String
+  heroIntro       String
+  aboutParagraphs String[]
+  contactBlurb    String
+  contactCtaLabel String
+  email           String
+  github          String
+  linkedin        String
+  updatedAt       DateTime @updatedAt
+}
+
 // Contact-form submissions (wired up in Phase 3).
 model Message {
   id        String   @id @default(cuid())

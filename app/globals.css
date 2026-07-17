@@ -101,20 +101,6 @@ body {
   animation-duration: 0.3s;
 }
 
-/* ---------- Hero name marquee ---------- */
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 18s linear infinite;
-}
-
 /* ---------- Slow spin for the location-badge globe ---------- */
 
 @keyframes spin-slow {
@@ -202,7 +188,6 @@ body {
     transform: none;
     transition: none;
   }
-  .marquee-track,
   .animate-spin-slow {
     animation: none;
   }

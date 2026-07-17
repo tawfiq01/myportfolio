@@ -1,7 +1,11 @@
+import { cache } from "react";
 import { prisma } from "./db";
 import {
+  ABOUT,
   CERTIFICATIONS,
+  CONTACT,
   EXPERIENCES,
+  HERO,
   PROJECTS,
   SKILL_GROUPS,
   type Certification,
@@ -9,6 +13,47 @@ import {
   type Project,
   type SkillGroup,
 } from "./content";
+import { SOCIAL } from "./site";
+
+export type SiteContent = {
+  heroGreeting: string;
+  heroHeadline: string;
+  heroTagline: string;
+  heroIntro: string;
+  aboutParagraphs: string[];
+  contactBlurb: string;
+  contactCtaLabel: string;
+  email: string;
+  github: string;
+  linkedin: string;
+};
+
+// Static fallback assembled from the original lib/content.ts constants.
+export const FALLBACK_SITE_CONTENT: SiteContent = {
+  heroGreeting: HERO.greeting,
+  heroHeadline: HERO.headline,
+  heroTagline: HERO.tagline,
+  heroIntro: HERO.intro,
+  aboutParagraphs: ABOUT.paragraphs,
+  contactBlurb: CONTACT.blurb,
+  contactCtaLabel: CONTACT.ctaLabel,
+  email: SOCIAL.email,
+  github: SOCIAL.github,
+  linkedin: SOCIAL.linkedin,
+};
+
+// cache() dedupes the singleton lookup across the components that need it
+// within a single render.
+export const getSiteContent = cache(async (): Promise<SiteContent> => {
+  if (!prisma) return FALLBACK_SITE_CONTENT;
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { id: "singleton" } });
+    return row ?? FALLBACK_SITE_CONTENT;
+  } catch (error) {
+    console.error("Database query failed, serving static content:", error);
+    return FALLBACK_SITE_CONTENT;
+  }
+});
 
 // Each query reads from the database when it's configured and has rows,
 // otherwise serves the static placeholders from lib/content.ts. The DB is

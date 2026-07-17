@@ -1,18 +1,20 @@
 import Magnetic from "./Magnetic";
 import Reveal from "./Reveal";
-import { ABOUT, HERO } from "@/lib/content";
+import { getSiteContent } from "@/lib/queries";
 
-export default function About() {
+export default async function About() {
+  const site = await getSiteContent();
+
   return (
     <section id="about" className="scroll-mt-24 bg-background text-foreground">
       <div className="mx-auto max-w-6xl px-6 py-28 sm:px-10 sm:py-40">
         <div className="grid items-start gap-14 sm:grid-cols-[1.6fr_1fr]">
           <Reveal>
-            <p className="text-2xl font-light leading-snug sm:text-4xl">{HERO.intro}</p>
+            <p className="text-2xl font-light leading-snug sm:text-4xl">{site.heroIntro}</p>
           </Reveal>
           <Reveal delay={150}>
             <div className="space-y-5 text-sm leading-relaxed text-muted sm:text-base">
-              {ABOUT.paragraphs.map((paragraph) => (
+              {site.aboutParagraphs.map((paragraph) => (
                 <p key={paragraph.slice(0, 32)}>{paragraph}</p>
               ))}
             </div>

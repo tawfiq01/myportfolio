@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/content";
-import { SOCIAL } from "@/lib/site";
 import Magnetic from "./Magnetic";
 
-export default function Nav() {
+type Props = {
+  socials: { github: string; linkedin: string; email: string };
+};
+
+export default function Nav({ socials }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -99,13 +102,13 @@ export default function Nav() {
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-muted">Socials</p>
             <div className="mt-4 flex flex-wrap gap-6 text-sm">
-              <a href={SOCIAL.github} target="_blank" rel="noreferrer" className="nav-link">
+              <a href={socials.github} target="_blank" rel="noreferrer" className="nav-link">
                 GitHub
               </a>
-              <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer" className="nav-link">
+              <a href={socials.linkedin} target="_blank" rel="noreferrer" className="nav-link">
                 LinkedIn
               </a>
-              <a href={`mailto:${SOCIAL.email}`} className="nav-link">
+              <a href={`mailto:${socials.email}`} className="nav-link">
                 Email
               </a>
             </div>
