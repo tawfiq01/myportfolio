@@ -46,6 +46,7 @@ async function main() {
     heroHeadline: HERO.headline,
     heroTagline: HERO.tagline,
     heroIntro: HERO.intro,
+    location: "Located in Bangladesh",
     aboutParagraphs: ABOUT.paragraphs as string[],
     contactBlurb: CONTACT.blurb,
     contactCtaLabel: CONTACT.ctaLabel,

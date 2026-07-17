@@ -189,6 +189,7 @@ export async function saveSiteContent(formData: FormData): Promise<void> {
     heroHeadline: text(formData, "heroHeadline"),
     heroTagline: text(formData, "heroTagline"),
     heroIntro: text(formData, "heroIntro"),
+    location: text(formData, "location"),
     aboutParagraphs: lines(formData, "aboutParagraphs"),
     contactBlurb: text(formData, "contactBlurb"),
     contactCtaLabel: text(formData, "contactCtaLabel"),

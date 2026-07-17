@@ -65,6 +65,8 @@ model SiteContent {
   heroHeadline    String
   heroTagline     String
   heroIntro       String
+  // Existing rows get the default when db push adds the column.
+  location        String   @default("Located in Bangladesh")
   aboutParagraphs String[]
   contactBlurb    String
   contactCtaLabel String

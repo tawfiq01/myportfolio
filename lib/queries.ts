@@ -20,6 +20,7 @@ export type SiteContent = {
   heroHeadline: string;
   heroTagline: string;
   heroIntro: string;
+  location: string;
   aboutParagraphs: string[];
   contactBlurb: string;
   contactCtaLabel: string;
@@ -34,6 +35,7 @@ export const FALLBACK_SITE_CONTENT: SiteContent = {
   heroHeadline: HERO.headline,
   heroTagline: HERO.tagline,
   heroIntro: HERO.intro,
+  location: "Located in Bangladesh",
   aboutParagraphs: ABOUT.paragraphs,
   contactBlurb: CONTACT.blurb,
   contactCtaLabel: CONTACT.ctaLabel,

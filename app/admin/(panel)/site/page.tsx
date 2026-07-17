@@ -28,6 +28,9 @@ export default async function SiteContentAdmin() {
             <Field label="Tagline">
               <input name="heroTagline" defaultValue={site.heroTagline} required className={inputCls} />
             </Field>
+            <Field label="Location badge">
+              <input name="location" defaultValue={site.location} required className={inputCls} />
+            </Field>
             <Field label="Intro (large text in About section)">
               <textarea name="heroIntro" defaultValue={site.heroIntro} rows={3} required className={inputCls} />
             </Field>

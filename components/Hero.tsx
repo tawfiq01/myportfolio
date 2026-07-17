@@ -31,11 +31,7 @@ export default async function Hero() {
             <path d="M3 12h18" />
           </svg>
         </span>
-        <p className="pl-3 text-sm leading-tight">
-          Located
-          <br />
-          in Bangladesh
-        </p>
+        <p className="max-w-[9rem] pl-3 text-sm leading-tight">{site.location}</p>
       </div>
 
       <div className="relative mx-auto w-full max-w-6xl px-6 sm:px-10">
