@@ -187,6 +187,27 @@ body {
   transform: translateX(-50%) scale(1);
 }
 
+/* ---------- Hero scroll cue (arrow drifting down inside the pill) ---------- */
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0.9rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0.9rem);
+    opacity: 0;
+  }
+}
+
+.scroll-cue {
+  animation: scroll-cue 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* ---------- Scroll-reveal ---------- */
 
 .reveal {
@@ -208,7 +229,8 @@ body {
     transform: none;
     transition: none;
   }
-  .animate-spin-slow {
+  .animate-spin-slow,
+  .scroll-cue {
     animation: none;
   }
 }

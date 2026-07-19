@@ -59,6 +59,26 @@ export default async function Hero() {
           </svg>
         </a>
       </div>
+
+      {/* Mouse-shaped scroll cue — click glides down to the next section */}
+      <a
+        href="#about"
+        aria-label="Scroll down"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 text-muted transition-colors hover:text-foreground"
+      >
+        <span className="flex h-12 w-7 justify-center rounded-full border border-current pt-2">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="scroll-cue h-3.5 w-3.5 text-accent"
+            aria-hidden
+          >
+            <path d="M12 4v14m0 0-5-5m5 5 5-5" />
+          </svg>
+        </span>
+      </a>
     </section>
   );
 }

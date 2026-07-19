@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
+import CustomCursor from "@/components/CustomCursor";
 import Hero from "@/components/Hero";
 import Gallery from "@/components/Gallery";
 import About from "@/components/About";
@@ -59,6 +60,7 @@ export default async function Home() {
         />
       )}
       <Preloader />
+      <CustomCursor />
       <Nav
         links={menuLinks}
         socials={{ github: site.github, linkedin: site.linkedin, email: site.email }}
