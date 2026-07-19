@@ -1,4 +1,5 @@
 import Magnetic from "./Magnetic";
+import Orbs from "./Orbs";
 import Reveal from "./Reveal";
 import { getSiteContent } from "@/lib/queries";
 
@@ -6,7 +7,18 @@ export default async function Contact() {
   const site = await getSiteContent();
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-background text-foreground">
+    <section id="contact" className="relative isolate scroll-mt-24 bg-background text-foreground">
+      <Orbs
+        opacity={0.26}
+        orbs={[
+          { className: "orb-a left-[-10%] top-[18%] h-[30rem] w-[30rem]", mix: 50 },
+          {
+            className:
+              "orb-c right-[-8%] bottom-[-15%] h-[26rem] w-[26rem] [filter:blur(90px)_hue-rotate(45deg)]",
+            mix: 45,
+          },
+        ]}
+      />
       {/* Light section curving away into the dark footer.
           overflow-hidden: the 120%-wide curve must not widen the page layout. */}
       <div aria-hidden className="overflow-hidden">

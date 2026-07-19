@@ -12,7 +12,7 @@ export default async function Gallery() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {images.map((image, i) => (
           <Reveal key={image.imageUrl} delay={(i % 3) * 100}>
-            <figure className="group overflow-hidden rounded-xl">
+            <figure className="group relative overflow-hidden rounded-xl">
               <div className="relative aspect-[4/3]">
                 <Image
                   src={image.imageUrl}
@@ -23,7 +23,9 @@ export default async function Gallery() {
                 />
               </div>
               {image.title && (
-                <figcaption className="mt-2 text-sm text-paper-muted">{image.title}</figcaption>
+                <figcaption className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-12 text-sm text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                  {image.title}
+                </figcaption>
               )}
             </figure>
           </Reveal>

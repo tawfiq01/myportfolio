@@ -15,7 +15,10 @@ export default function Section({ id, eyebrow, title, children }: Props) {
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <Reveal>
           <div className="flex items-baseline justify-between border-b border-paper-border pb-6 text-paper-muted">
-            <p className="text-xs uppercase tracking-[0.25em]">{title}</p>
+            <p className="flex items-center gap-2.5 text-xs uppercase tracking-[0.25em]">
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {title}
+            </p>
             <span className="text-xs">/{eyebrow}</span>
           </div>
         </Reveal>

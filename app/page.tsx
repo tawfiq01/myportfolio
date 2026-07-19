@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import Orbs from "@/components/Orbs";
 import Preloader from "@/components/Preloader";
 import CustomCursor from "@/components/CustomCursor";
 import Hero from "@/components/Hero";
@@ -70,7 +71,24 @@ export default async function Home() {
         <Hero />
         <About />
         {/* Light "work" zone — dark hero/about curve into it, contact curves out. */}
-        <div className="bg-paper text-paper-fg">
+        <div className="relative isolate bg-paper text-paper-fg">
+          {/* Faint pastel glows so the long light zone isn't flat white */}
+          <Orbs
+            opacity={0.14}
+            orbs={[
+              { className: "orb-a right-[-12%] top-[4%] h-[30rem] w-[30rem]", mix: 50 },
+              {
+                className:
+                  "orb-b left-[-14%] top-[38%] h-[32rem] w-[32rem] [filter:blur(90px)_hue-rotate(45deg)]",
+                mix: 45,
+              },
+              {
+                className:
+                  "orb-c bottom-[6%] right-[-10%] h-[26rem] w-[26rem] [filter:blur(90px)_hue-rotate(-35deg)]",
+                mix: 45,
+              },
+            ]}
+          />
           {/* overflow-hidden: the 120%-wide curve must not widen the page layout */}
           <div aria-hidden className="overflow-hidden">
             <div className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-background sm:h-24" />

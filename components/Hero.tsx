@@ -1,3 +1,4 @@
+import Orbs from "./Orbs";
 import { getSiteContent } from "@/lib/queries";
 
 export default async function Hero() {
@@ -7,7 +8,7 @@ export default async function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden bg-[var(--hero)] pt-20 text-foreground"
+      className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden bg-[var(--hero)] pt-20 text-foreground"
     >
       {/* Soft light wash to keep the landing airier than the sections below */}
       <div
@@ -17,20 +18,21 @@ export default async function Hero() {
 
       {/* Drifting accent glows — hue variants all derive from the admin-set
           accent, so the animation recolors with the theme. */}
-      <div aria-hidden className="absolute inset-0 overflow-hidden">
-        <div
-          className="orb orb-a left-[-8%] top-[-12%] h-[34rem] w-[34rem]"
-          style={{ background: "color-mix(in srgb, var(--accent) 55%, transparent)" }}
-        />
-        <div
-          className="orb orb-b right-[-10%] top-[30%] h-[28rem] w-[28rem] [filter:blur(90px)_hue-rotate(45deg)]"
-          style={{ background: "color-mix(in srgb, var(--accent) 45%, transparent)" }}
-        />
-        <div
-          className="orb orb-c bottom-[-18%] left-[28%] h-[24rem] w-[24rem] [filter:blur(90px)_hue-rotate(-35deg)]"
-          style={{ background: "color-mix(in srgb, var(--accent) 40%, transparent)" }}
-        />
-      </div>
+      <Orbs
+        orbs={[
+          { className: "orb-a left-[-8%] top-[-12%] h-[34rem] w-[34rem]", mix: 55 },
+          {
+            className:
+              "orb-b right-[-10%] top-[30%] h-[28rem] w-[28rem] [filter:blur(90px)_hue-rotate(45deg)]",
+            mix: 45,
+          },
+          {
+            className:
+              "orb-c bottom-[-18%] left-[28%] h-[24rem] w-[24rem] [filter:blur(90px)_hue-rotate(-35deg)]",
+            mix: 40,
+          },
+        ]}
+      />
 
       {/* Location badge */}
       <div className="absolute right-0 top-28 hidden items-center gap-1 rounded-l-full bg-accent py-2 pl-2 pr-6 text-white sm:flex">

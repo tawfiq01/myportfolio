@@ -194,7 +194,7 @@ body {
   border-radius: 50%;
   filter: blur(90px);
   pointer-events: none;
-  opacity: var(--orb-opacity, 0.35);
+  opacity: var(--orb-opacity);
   will-change: transform;
 }
 
@@ -246,7 +246,12 @@ body {
   animation: orb-drift-c 24s ease-in-out infinite;
 }
 
-:root[data-theme="light"] .orb {
+/* Theme defaults for orb strength; sections may override via inline style. */
+:root {
+  --orb-opacity: 0.35;
+}
+
+:root[data-theme="light"] {
   --orb-opacity: 0.22;
 }
 
