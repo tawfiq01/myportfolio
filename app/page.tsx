@@ -69,7 +69,10 @@ export default async function Home() {
         <About />
         {/* Light "work" zone — dark hero/about curve into it, contact curves out. */}
         <div className="bg-paper text-paper-fg">
-          <div aria-hidden className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-background sm:h-24" />
+          {/* overflow-hidden: the 120%-wide curve must not widen the page layout */}
+          <div aria-hidden className="overflow-hidden">
+            <div className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-background sm:h-24" />
+          </div>
           <Experience />
           <Skills />
           <Projects />

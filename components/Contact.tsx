@@ -7,8 +7,11 @@ export default async function Contact() {
 
   return (
     <section id="contact" className="scroll-mt-24 bg-background text-foreground">
-      {/* Light section curving away into the dark footer */}
-      <div aria-hidden className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-paper sm:h-24" />
+      {/* Light section curving away into the dark footer.
+          overflow-hidden: the 120%-wide curve must not widen the page layout. */}
+      <div aria-hidden className="overflow-hidden">
+        <div className="-ml-[10%] h-16 w-[120%] rounded-b-[100%] bg-paper sm:h-24" />
+      </div>
 
       <div className="mx-auto max-w-6xl px-6 pb-20 pt-24 sm:px-10 sm:pt-36">
         <Reveal>
