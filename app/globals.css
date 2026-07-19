@@ -187,6 +187,69 @@ body {
   transform: translateX(-50%) scale(1);
 }
 
+/* ---------- Hero background orbs (slow drifting accent glows) ---------- */
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: var(--orb-opacity, 0.35);
+  will-change: transform;
+}
+
+@keyframes orb-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10vw, 9vh) scale(1.18);
+  }
+  66% {
+    transform: translate(-5vw, 15vh) scale(0.92);
+  }
+}
+
+@keyframes orb-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-9vw, -7vh) scale(1.12);
+  }
+  75% {
+    transform: translate(6vw, -12vh) scale(0.88);
+  }
+}
+
+@keyframes orb-drift-c {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12vw, 8vh) scale(1.25);
+  }
+}
+
+.orb-a {
+  animation: orb-drift-a 26s ease-in-out infinite;
+}
+
+.orb-b {
+  animation: orb-drift-b 32s ease-in-out infinite;
+}
+
+.orb-c {
+  animation: orb-drift-c 24s ease-in-out infinite;
+}
+
+:root[data-theme="light"] .orb {
+  --orb-opacity: 0.22;
+}
+
 /* ---------- Hero scroll cue (arrow drifting down inside the pill) ---------- */
 
 @keyframes scroll-cue {
@@ -230,7 +293,8 @@ body {
     transition: none;
   }
   .animate-spin-slow,
-  .scroll-cue {
+  .scroll-cue,
+  .orb {
     animation: none;
   }
 }
