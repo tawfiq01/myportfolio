@@ -1,19 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 // Circle cursor in the tamalsen.dev style: a small accent dot glued to the
 // pointer plus a trailing ring that eases behind it and grows over
 // interactive elements. Fine-pointer devices only — touch screens never see
 // it — and the native cursor stays visible.
+
+function subscribePointerType(callback: () => void) {
+  const mq = window.matchMedia("(pointer: fine)");
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(pointer: fine)").matches) setEnabled(true);
-  }, []);
+  const enabled = useSyncExternalStore(
+    subscribePointerType,
+    () => window.matchMedia("(pointer: fine)").matches,
+    () => false,
+  );
 
   useEffect(() => {
     if (!enabled) return;
